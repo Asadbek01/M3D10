@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+  <title>Hello, world!</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <a class="navbar-brand" href="#">Movies</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">BackOffice</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                  genre
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a id = "romantic" class="dropdown-item" href="#">Romantic</a>
+                  <a id = "Horror" class="dropdown-item" href="#">Horror</a>
+                </div>
+              </li>
+        </div>
+      </nav>
+
+    </div>
+</div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <h4 class="mt-5 mb-4 text-center">Welcome!</h4>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+              <label for="name">Name of movie</label>
+              <input id="name" type="text" class="form-control" placeholder="Insert name of movie"
+                  aria-describedby="name field" required>
+          </div>
+          <div class="form-group">
+            <label for="name">Type of movie</label>
+            <input id="brand" type="text" class="form-control" placeholder="Insert type of movie"
+                aria-describedby="name field" required>
+        </div>
+        <div class="form-group">
+          <label for="name">Image of movie</label>
+          <input id="imageUrl" type="text" class="form-control" placeholder="Insert image of url"
+              aria-describedby="name field" required>
+      </div>
+        
+          <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" type="textarea" rows="3" class="form-control"
+                  placeholder="Insert Description" aria-describedby="event description field"
+                  required></textarea>
+          </div>
+          
+         
+          <div class="d-flex justify-content-between">
+            <div class="buttons">
+              <button class="btn btn-primary" ><span>Submit
+                      </span>
+                 <button class="btn btn-warning ml-2" type= "button">Reset</button>
+                 
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <script>
+
+const productId = new URLSearchParams(window.location.search).get('productId')
+const url = productId ? `https://striveschool-api.herokuapp.com/api/movies/123${itemId}` : 'https://striveschool-api.herokuapp.com/api/movies/123'
+console.log(url)
+const form = document.querySelector('form')
+ form.addEventListener('submit' ,e =>{
+   e.preventDefault();
+ })
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+
+
+      const myEvent = {
+        name: document.getElementById("name").value,
+        description: document.getElementById("description").value,
+        brand: document.getElementById("brand").value,
+        imageUrl: document.getElementById("imageUrl").value,
+      }
+
+      try {
+        const response = await fetch("https://striveschool-api.herokuapp.com/api/movies/123", {
+          method: "POST",
+          body: JSON.stringify(myEvent),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgyODhmZWFhY2FhMjAwMTU1MmExNjEiLCJpYXQiOjE2MzU5NDQ3MDIsImV4cCI6MTYzNzE1NDMwMn0.Fcv6mw_bw-ii1EPsZggnLy0HeFjRBc1ToZFVkAJKVzg"
+          }
+        })
+      } catch (error) {
+        alert(error); 
+      }
+
+    }
+   
+      const handleDelete = async () => {
+            try {
+                const response = await fetch(endpoint, { method: "DELETE" })
+                if (response.ok) {
+                    const deletedObj = await response.json()
+                    showAlert("success", "Event with id: " + deletedObj._id + " deleted successfully") // shows the custom alert
+                    setTimeout(() => { window.location.assign("/") }, 3500) // pushes the user to the homepage after 3,5 seconds
+                } else {
+                    showAlert("danger", "Something went wrong in the deletion process")
+                }
+            } catch (err) {
+                showAlert("danger", err.message)
+            }
+        }
+    
+
+    //  const showAlert = (type, msg) => {
+    //         const alertContainer = document.getElementById("alert-box")
+
+    //         alertContainer.innerHTML = `
+    //         <div class="alert alert-${type}" role="alert">
+    //             ${msg}
+    //         </div>`
+
+
+    //         setTimeout(() => {
+    //             alertContainer.innerHTML = ""
+    //         }, 3000)
+    //     }
+
+
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+    crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
